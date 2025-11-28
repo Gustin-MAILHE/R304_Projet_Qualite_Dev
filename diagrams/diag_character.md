@@ -8,6 +8,8 @@ classDiagram
     Gallic <|-- Smith
     Gallic <|-- Druid
 
+    Druid: +cook_magic_potion()
+
     Character <|-- Roman
     Roman <|-- Legionnaire
     Roman <|-- Prefect
