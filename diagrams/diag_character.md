@@ -30,19 +30,19 @@
             <<Abstract>>
             -String name
             -String sexe
-            -long heigh
+            -long height
             -long age
-            -long strenght
+            -long strength
             -long stamina
             -long health
             -long hunger
             -long fight_will
             -long potion_level
     
-            +Perso(String name, String sexe, long heigh, long age, long strenght)
-            +void fight_against(Perso ennemi)
+            +Character(String name, String sexe, long heigh, long age, long strenght)
+            +void fight_against(Character enemy)
             +long heal(long improve)
-            +long eat(Meal meal)
+            +long eat(Food food)
             +long drink_magic_potion(Potion potion)
             +void dead()
         }
@@ -64,8 +64,11 @@
             <<Interface>>
             +lead()
         }
+
+        class IWorker {
+            <<Interface>>
+            +work()
+    }
 ```
 
-    class IWorker {
-        +work()
-    }
+    
