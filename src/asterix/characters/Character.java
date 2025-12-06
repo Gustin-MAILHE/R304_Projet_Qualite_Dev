@@ -1,4 +1,4 @@
-package asterix;
+package asterix.characters;
 
 import java.util.ArrayList;
 
@@ -43,6 +43,10 @@ public abstract class Character {
 	public void drink_magic_potion(Magic_potion_pot potion) {
 		this.setStrength(1000);
 		this.setHealth(1000);
+	}
+	
+	public void dead() {
+		this.setHealth(0);
 	}
 	
 	public String getName() {

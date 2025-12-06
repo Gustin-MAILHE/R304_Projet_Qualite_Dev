@@ -1,4 +1,4 @@
-package asterix;
+package asterix.characters;
 
 public abstract class Food {
 
