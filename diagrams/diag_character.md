@@ -19,14 +19,14 @@ classDiagram
     IFighter <|.. General
     IFighter <|.. Druid
 
-    ILeader <|-- Prefect
-    ILeader <|-- General
-    ILeader <|-- Druid
+    ILeader <|.. Prefect
+    ILeader <|.. General
+    ILeader <|.. Druid
 
-    IWorker <|-- Merchant
-    IWorker <|-- Innkeeper
-    IWorker <|-- Smith
-    IWorker <|-- Druid
+    IWorker <|.. Merchant
+    IWorker <|.. Innkeeper
+    IWorker <|.. Smith
+    IWorker <|.. Druid
 
     class Character {
         <<Abstract>>
