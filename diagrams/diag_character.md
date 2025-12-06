@@ -43,7 +43,7 @@ classDiagram
         -ArrayList<Food> tried_food
         -ArrayList<Food> liked_food
 
-        +Character(String name, String sexe, long heigh, long age, long strenght)
+        +Character(String name, String sexe, long height, long age, long strength)
         +void fight_against(Character enemy)
         +long heal(long improve)
         +long eat(Food food)
