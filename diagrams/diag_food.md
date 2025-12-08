@@ -1,72 +1,61 @@
 ```mermaid
-    classDiagram
-    Food <|-- Boar
-    Food <|-- Fish
-    Food <|-- Mistletoe
-    Food <|-- Lobster
-    Food <|-- Strawberry
-    Food <|-- Carrot
-    Food <|-- Salt
-    Food <|-- Four-Leafed_Clover
-    Food <|-- Rock_oil
-    Food <|-- Beetroot_juice
-    Food <|-- Honey
-    Food <|-- Wine
-    Food <|-- Two-Headed_Unicorn_Milk
-    Food <|-- Idefix_Hair
-    Food <|-- Secret_Ingredient
-    Food <|-- Magic_Potion_Pot
-    class Food {
-    <<abstract>>
+classDiagram
+    %% --- ENUMS ---
+    class FoodType {
+    <<enumeration>>
+    MEAT
+    FISH
+    VEGETABLE
+    FRUIT
+    CONDIMENT
+    DRINK
+    SPECIAL
     }
-    
-    
-        class Boar{
-    
-        }
-        class Fish {
-    
-        }
-        class Mistletoe {
-    
-        }
-        class Lobster {
-    
-        }
-        class Strawberry {
-    
-        }
-        class Carrot {
-    
-        }
-        class Salt {
-    
-        }
-        class Four-Leafed_Clover {
-            
-        }
-        class Rock_oil {
-            
-        }
-        class Beetroot_juice {
-            
-        }
-        class Honey {
-            
-        }
-        class Wine {
-            
-        }
-        class Two-Headed_Unicorn_Milk {
-            
-        }
-        class Idefix_Hair {
-            
-        }
-        class Secret_Ingredient {
-            
-        }
-        class Magic_Potion_Pot {
-    
-        }
+
+    class FreshnessLevel {
+        <<enumeration>>
+        FRESH
+        PASSABLY_FRESH
+        NOT_FRESH
+    }
+
+    class PotionEffect {
+        <<enumeration>>
+        SUPER_STRENGTH
+        INVINCIBILITY
+        PERMANENT_EFFECT
+        GRANITE_STATUE
+        DUPLICATION
+        METAMORPHOSIS_WEREWOLF
+    }
+
+    %% --- CLASSES PRINCIPALES ---
+
+    class Food {
+        -name: String
+        -type: FoodType
+        -nutritionalValue: int
+        -freshness: FreshnessLevel
+        +Food(name, type, freshness)
+        +decay() void
+        +isEdible() boolean
+        +getFreshness() FreshnessLevel
+        +getType() FoodType
+    }
+
+    class MagicPotion {
+        -dosesRemaining: int
+        -effects: List~PotionEffect~
+        +MagicPotion(ingredients: List~Food~)
+        +drinkDose() List~PotionEffect~
+        +isEmpty() boolean
+        -determineEffects(ingredients: List~Food~) void
+    }
+
+    %% --- RELATIONS ---
+
+    MagicPotion o-- "0..*" Food : consists of
+    Food ..> FoodType : has
+    Food ..> FreshnessLevel : has
+    MagicPotion ..> PotionEffect : causes
 ```
