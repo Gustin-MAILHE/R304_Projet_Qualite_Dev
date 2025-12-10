@@ -52,39 +52,44 @@ public class Pack {
 
 
 
-    public void initAlphaCouple()
+    public void initAlphaCouple() throws Exception
     {
-        // Strongest Male & Female choice
-        Werewolf aMale = null;
-        long maleStrength = 0;
-        Werewolf aFemale = null;
-        long femaleStrength = 0;
+        try {
+            // Strongest Male & Female choice
+            Werewolf aMale = null;
+            long maleStrength = 0;
+            Werewolf aFemale = null;
+            long femaleStrength = 0;
 
-        for (Werewolf w : this.limbs)
-        {
-            if (w.getSexe().equals("Female"))
+            for (Werewolf w : this.limbs)
             {
-                if (w.getStrength() > femaleStrength)
+                if (w.getSexe().equals("Female"))
                 {
-                    aFemale = w;
-                    femaleStrength = w.getStrength();
+                    if (w.getStrength() > femaleStrength)
+                    {
+                        aFemale = w;
+                        femaleStrength = w.getStrength();
+                    }
+                }
+                else
+                {
+                    if (w.getStrength() > maleStrength)
+                    {
+                        aMale = w;
+                        maleStrength = w.getStrength();
+                    }
                 }
             }
-            else
+
+            // Check if there is an alpha male and an alpha female to create the alphaCouple( aMale, aFemale )
+            if ( aMale != null && aFemale != null )
             {
-                if (w.getStrength() > maleStrength)
-                {
-                    aMale = w;
-                    maleStrength = w.getStrength();
-                }
+                AlphaCouple aC = new AlphaCouple( aMale, aFemale );
+                this.setAlphaCouple(aC);
             }
         }
-
-        // Check if there is an alpha male and an alpha female to create the alphaCouple( aMale, aFemale )
-        if ( aMale != null && aFemale != null )
-        {
-            AlphaCouple aC = new AlphaCouple( aMale, aFemale );
-            this.setAlphaCouple(aC);
+        catch (Exception e){
+            throw new Exception("Error, composition inappropriate");
         }
     }
 
@@ -101,18 +106,21 @@ public class Pack {
 
         return male && female;
     }
-    public Pack newPack( ArrayList<Werewolf> limbs )
-    {
 
-        Pack newPack = new Pack();
+    public Pack newPack( ArrayList<Werewolf> limbs ) throws Exception {
+        try {
+            Pack newPack = new Pack();
 
-        for ( Werewolf w : limbs )
-        {
-            newPack.addLimb( w );
-            this.dellLimb( w );
+            for ( Werewolf w : limbs )
+            {
+                newPack.addLimb( w );
+                this.dellLimb( w );
+            }
+
+            newPack.initAlphaCouple();
+            return newPack;
+        } catch (Exception e) {
+            throw new Exception("Error, pack creation is impossible");
         }
-
-        newPack.initAlphaCouple();
-        return newPack;
     }
 }
