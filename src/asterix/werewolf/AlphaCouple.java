@@ -25,21 +25,26 @@ public class AlphaCouple {
     public void beget()
     {
         Random rd = new Random();
-
-        for (int i = 0 ; i < rd.nextInt(1, 8) ; ++i){
+        // Specs definition
+        for (int i = 0 ; i < rd.nextInt(1, 8) ; ++i) {
             String sexe;
-            int height = rd.nextInt(30) + 150;
-            if (rd.nextBoolean()){
+            long height = 0;
+            long strength = 0;
+            // if this is a son
+            if (rd.nextBoolean()) {
                 sexe = "Male";
+                height = rd.nextInt(50) + ( this.male.getHeight()-25 );
+                strength = rd.nextInt(4) + ( this.male.getStrength() - 2 );
             }
-            else{
+            // if this is a daughter
+            else {
                 sexe = "Female";
+                height = rd.nextInt(50) + ( this.female.getHeight()-25 );
+                strength = rd.nextInt(4) + ( this.female.getStrength() - 2 );
             }
 
 
-
-
-            this.pack.addLimb(new Werewolf(male.getName() + "JR" + i, sexe, height, 0, rd.nextInt(20), this.pack));
+            this.pack.addLimb(new Werewolf(male.getName() + "JR" + i, sexe, height, 0, strength, this.pack));
         }
     }
 }

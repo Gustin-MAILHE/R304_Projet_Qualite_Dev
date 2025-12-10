@@ -18,16 +18,21 @@ public class Werewolf extends Character {
 
     @Override
     public String toString() {
-        String result = "Werewolf";
+        String result =
+                "Werewolf : " + this.getName()
+                + "\t - sexe : " + this.getSexe()
+                + "\t - height : " + this.getHeight()
+                + "\t - age : " + this.getAge()
+                + "\t - strength : " + this.getStrength();
         return result;
     }
 
-    public void Wowl(String type, boolean isAnswer, Werewolf target)
+    public void Howl(String type, boolean isAnswer, Werewolf target)
     {
 
     }
 
-    void hearWowl()
+    void hearHowl()
     {
 
     }
