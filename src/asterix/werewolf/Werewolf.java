@@ -2,12 +2,14 @@ package asterix.werewolf;
 
 import asterix.Character;
 
+import java.util.ArrayList;
+
 public class Werewolf extends Character {
-    private String ageCategorie;
+    private String ageCategorie; // "jeune", "adulte", "vieux"
     private float dominationFactor;
     private String rank;
     private long level;
-    private long thinkingStrngh;
+    private long thinkingStrengh;
     private Pack pack;
 
     public Werewolf(String name, String sexe, long height, long age, long strength, Pack pack)
@@ -17,7 +19,8 @@ public class Werewolf extends Character {
     }
 
     @Override
-    public String toString() {
+    public String toString()
+    {
         String result =
                 "Werewolf : " + this.getName()
                 + "\t - sexe : " + this.getSexe()
@@ -27,31 +30,46 @@ public class Werewolf extends Character {
         return result;
     }
 
-    public void Howl(String type, boolean isAnswer, Werewolf target)
+    public void Howl(String type, boolean isAnswer, ArrayList<Werewolf> targets)
+    {
+        new Howl(type, isAnswer, targets, this);
+        if (!isAnswer) {
+            System.out.println( "Werewolf " + this.getName() + " has started a " + type + "howl" );
+        }
+    }
+
+    public void hearHowl( Howl howl )
+    {
+        switch (howl.type)
+        {
+            case "Domination" :
+                if (howl.isATarget(this))
+                {
+
+                }
+                break;
+            case "Pack":
+                new Howl("Pack", true, this);
+        }
+    }
+
+    public void breakUp()
     {
 
     }
 
-    void hearHowl()
-    {
-
-    }
-
-    void breakUp()
-    {
-
-    }
-
-    void toHuman()
+    public void toHuman()
     {
 
     }
 
 
-    public Pack getPack() {
+    public Pack getPack()
+    {
         return pack;
     }
-    public void setPack(Pack pack) {
+    public void setPack(Pack pack)
+    {
         this.pack = pack;
     }
 }
