@@ -23,10 +23,11 @@ public class ClanChief {
     }
     
     // Getters
-    public String getname() { return name; }
+    public String getName() { return name; }
     public String getSexe() { return sexe; }
     public int getAge() { return age; }
     public Place getplaceOrigin() { return placeOrigin; }
+    public void setPlaceOrigin(Place place) { placeOrigin = place; }
     
     // 1. Examiner son lieu
     public void checkPlace() {
@@ -207,7 +208,7 @@ public class ClanChief {
     
     // Menu auxiliaire pour créer une potion
     private void menuMagicPotionCreation(Scanner scanner) {
-        System.out.println("\n╔═══════════════════════════ CRÉATION D'UN NOUVEAU PERSONNAGE ════════════════════════════════");
+        System.out.println("\n╔═══════════════════════════════ DEMANDE DE POTION MAGIQUE ═══════════════════════════════════");
         System.out.println("╚═══ la demande sera complétée si les aliments sont disponible et qu'un druide est présent ═══");
         
         System.out.println("\nType de potion (le type est un effet bonus à l'effet de base) :");
@@ -233,7 +234,7 @@ public class ClanChief {
     
  // Menu auxiliaire pour créer un personnage
     private void menuCreateCharacter(Scanner scanner) {
-        System.out.println("\n═══ DEMANDE DE POTION MAGIQUE ═══");
+        System.out.println("\n═══ CRÉATION D'UN NOUVEAU PERSONNAGE ═══");
         System.out.print("name : ");
         String name = scanner.nextLine();
         System.out.print("Sexe (M/F) : ");

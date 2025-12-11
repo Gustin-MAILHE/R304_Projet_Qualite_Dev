@@ -16,9 +16,9 @@ public abstract class Character {
 	private long age;
 	private long strength;
 	private long baseStrength;
-	private long stamina;
-	private long health;
-	private long hunger;
+	private long stamina = 100;
+	private long health = 100;
+	private long hunger = 100;
 	private long fightWill;
 	private long potionLevel = 0;
 	private boolean isInvincible = false;
