@@ -1,10 +1,16 @@
 package asterix.characters;
 
+import asterix.food.MagicPotion;
+
 public class Druid extends Gallic implements IWorker, ILeader, IFighter {
 
 	public Druid(String name, String sexe, long height, long age, long strength) {
 		super(name, sexe, height, age, strength);
 		// TODO Auto-generated constructor stub
+	}
+	
+	public MagicPotion cookMagicPotion(int type) {
+		return null;
 	}
 
 	@Override

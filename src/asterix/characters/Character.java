@@ -1,7 +1,6 @@
 package asterix.characters;
 
 import java.util.ArrayList;
-import asterix.food.*;
 
 public abstract class Character {
 	private String name;
