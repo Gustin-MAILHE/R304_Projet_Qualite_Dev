@@ -23,6 +23,7 @@ classDiagram
         <<enumeration>>
         SUPER_STRENGTH
         INVINCIBILITY
+        NUTRITIOUS
         PERMANENT_EFFECT
         GRANITE_STATUE
         DUPLICATION
@@ -36,20 +37,27 @@ classDiagram
         -type: FoodType
         -nutritionalValue: int
         -freshness: FreshnessLevel
-        +Food(name, type, freshness)
+        +Food(name: String, type: FoodType, freshness: FreshnessLevel)
         +decay() void
         +isEdible() boolean
-        +getFreshness() FreshnessLevel
+        -calculateNutritionalValue(type: FoodType, freshness: FreshnessLevel)
+        +getName() String
         +getType() FoodType
+        +getNutritionalValue() int
+        +getFreshness() FreshnessLevel
     }
 
     class MagicPotion {
+        -INITIAL_DOSES_IN_CAULDRON: int = 10$
         -dosesRemaining: int
         -effects: List~PotionEffect~
+        -ingredients: List~Food~
         +MagicPotion(ingredients: List~Food~)
+        -determineEffects(ingredients: List~Food~) void
         +drinkDose() List~PotionEffect~
         +isEmpty() boolean
-        -determineEffects(ingredients: List~Food~) void
+        +getDosesRemaining() int
+        +getEffects() List~PotionEffect~
     }
 
     %% --- RELATIONS ---
