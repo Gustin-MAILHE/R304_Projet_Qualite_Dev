@@ -1,12 +1,9 @@
 package asterix.characters;
 
+import asterix.food.*;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import asterix.food.Food;
-import asterix.food.FreshnessLevel;
-import asterix.food.MagicPotion;
-import asterix.food.PotionEffect;
 
 public abstract class Character {
 	private String name;
