@@ -1,10 +1,11 @@
 package asterix.places;
 
 import asterix.characters.Character;
+import asterix.characters.ClanChief;
 
 public class Enclosure extends Place {
 
-	Enclosure(String name, double size, Character clanChief) {
+	public Enclosure(String name, double size, ClanChief clanChief) {
 		super(name, size, clanChief);
 		// TODO Auto-generated constructor stub
 	}

@@ -1,10 +1,11 @@
 package asterix.places;
 
 import asterix.characters.Character;
+import asterix.characters.ClanChief;
 
 public class Battlefield extends Place {
 
-	Battlefield(String name, double size, Character clanChief) {
+	public Battlefield(String name, double size, ClanChief clanChief) {
 		super(name, size, clanChief);
 	}
 

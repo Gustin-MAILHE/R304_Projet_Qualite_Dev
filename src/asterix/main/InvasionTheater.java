@@ -6,6 +6,7 @@ import asterix.food.*;
 import asterix.places.*;
 import asterix.werewolf.Pack;
 import asterix.werewolf.Werewolf;
+import asterix.places.*;
 
 import java.util.ArrayList;
 import java.util.List;

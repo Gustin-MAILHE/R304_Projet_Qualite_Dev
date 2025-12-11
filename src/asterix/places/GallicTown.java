@@ -1,11 +1,12 @@
 package asterix.places;
 
 import asterix.characters.Character;
+import asterix.characters.ClanChief;
 import asterix.characters.Gallic;
 
 public class GallicTown extends Place {
 
-	GallicTown(String name, double size, Character clanChief) {
+	public GallicTown(String name, double size, ClanChief clanChief) {
 		super(name, size, clanChief);
 	}
 
