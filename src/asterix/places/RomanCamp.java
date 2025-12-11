@@ -1,13 +1,12 @@
 package asterix.places;
 
 import asterix.characters.Character;
-import asterix.characters.ClanChief;
 import asterix.characters.General;
 import asterix.characters.Legionnaire;
 
 public class RomanCamp extends Place {
 
-	public RomanCamp(String name, double size, ClanChief clanChief) {
+	RomanCamp(String name, double size, Character clanChief) {
 		super(name, size, clanChief);
 		// TODO Auto-generated constructor stub
 	}

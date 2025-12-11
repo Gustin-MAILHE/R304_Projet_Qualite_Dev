@@ -6,7 +6,6 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import asterix.characters.Character;
-import asterix.characters.ClanChief;
 import asterix.food.Food;
 import asterix.food.MagicPotion;
 
@@ -14,12 +13,12 @@ import asterix.food.MagicPotion;
 public abstract class Place {
 	private String name;
 	private double size;
-	private ClanChief clanChief;
-	private ArrayList<Character> characters = new ArrayList<Character>();
+	private Character clanChief;
+	private ArrayList<Character> characters;
 	private ArrayList<Food> foods = new ArrayList<Food>();
 	private ArrayList<MagicPotion> magicPotions;
 	
-	Place(String name, double size, ClanChief clanChief) {
+	Place(String name, double size, Character clanChief) {
 		this.name = name;	
 		this.size = size;
 		this.clanChief = clanChief;
@@ -34,7 +33,7 @@ public abstract class Place {
 		return size;
 	}
 
-	public ClanChief getClanChief() {
+	public Character getClanChief() {
 		return clanChief;
 	}
 

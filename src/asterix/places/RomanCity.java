@@ -1,12 +1,11 @@
 package asterix.places;
 
 import asterix.characters.Character;
-import asterix.characters.ClanChief;
 import asterix.characters.Roman;
 
 public class RomanCity extends Place {
 
-	public RomanCity(String name, double size, ClanChief clanChief) {
+	RomanCity(String name, double size, Character clanChief) {
 		super(name, size, clanChief);
 		// TODO Auto-generated constructor stub
 	}

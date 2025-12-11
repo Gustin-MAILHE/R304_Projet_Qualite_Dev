@@ -3,8 +3,10 @@ package asterix.characters;
 import java.util.ArrayList;
 import java.util.List;
 
-import asterix.food.*;
-
+import asterix.food.Food;
+import asterix.food.FreshnessLevel;
+import asterix.food.MagicPotion;
+import asterix.food.PotionEffect;
 
 public abstract class Character {
 	private String name;
@@ -13,9 +15,9 @@ public abstract class Character {
 	private long age;
 	private long strength;
 	private long baseStrength;
-	private long stamina = 100;
-	private long health = 100;
-	private long hunger = 100;
+	private long stamina;
+	private long health;
+	private long hunger;
 	private long fightWill;
 	private long potionLevel = 0;
 	private boolean isInvincible = false;
@@ -48,17 +50,16 @@ public abstract class Character {
 		long newHealth = Math.max(100, this.getHealth() + improve);
 		this.setHealth(newHealth);
 	}
-
+	
 	public void eat(Food food) {
 		long newHunger = Math.max(100, this.getHunger() + food.getNutritionalValue());
 		this.setHunger(newHunger);
-		if (food.getFreshness() == FreshnessLevel.NOT_FRESH || this.getLastFood().getType().equals(FoodType.VEGETABLE) && food.getType().equals(FoodType.VEGETABLE)) {
+		if (food.getFreshness() == FreshnessLevel.NOT_FRESH) {
 			this.setHealth(this.getHealth() - food.getNutritionalValue());
 			if  (this.getHealth() <= 0) {
 				this.dead();
 			}
 		}
-		this.setLastFood(food);
 	}
 
 	/**
@@ -152,36 +153,6 @@ public abstract class Character {
 	
 	public void dead() {
 		this.setHealth(0);
-	}
-
-	/**
-	 * Appelé par le Théâtre à chaque tour.
-	 * Gère la digestion (faim) et la dissipation de la potion magique.
-	 * [cite: 112]
-	 */
-	public void timePasses() {
-		// 1. Gestion de la Potion
-		if (this.potionLevel > 0) {
-			// Si les effets ne sont PAS permanents et qu'on n'est PAS une statue
-			if (!this.permanentMagicEffects && !this.isStatue) {
-				this.potionLevel--;
-
-				// Si le niveau retombe à 0, on perd les bonus
-				if (this.potionLevel == 0) {
-					System.out.println(this.name + " ne ressent plus les effets de la potion.");
-					this.strength = this.baseStrength; // Rétablissement force normale
-					this.isInvincible = false;       // Fin invincibilité
-				}
-			}
-			// Si effectsPermanent est true, on ne décrémente pas
-		}
-
-		// 2. Gestion de la Faim (Exemple simple)
-		this.setHunger(this.getHunger() - 10);
-		if (this.getHunger() <= 0){
-			this.setHunger(0);
-			this.setHealth(this.getHealth() - 10);
-		}
 	}
 	
 	public String getName() {
