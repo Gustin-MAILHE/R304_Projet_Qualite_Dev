@@ -1,4 +1,7 @@
-package asterix.characters;
+package asterix.places;
+
+import asterix.characters.Character;
+import asterix.characters.Roman;
 
 public class RomanCity extends Place {
 

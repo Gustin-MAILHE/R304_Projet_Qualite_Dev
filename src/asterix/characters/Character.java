@@ -1,6 +1,12 @@
 package asterix.characters;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import asterix.food.Food;
+import asterix.food.FreshnessLevel;
+import asterix.food.MagicPotion;
+import asterix.food.PotionEffect;
 
 public abstract class Character {
 	private String name;
@@ -48,7 +54,7 @@ public abstract class Character {
 	public void eat(Food food) {
 		long newHunger = Math.max(100, this.getHunger() + food.getNutritionalValue());
 		this.setHunger(newHunger);
-		if (food.getFreshness() == NOT_FRESH) {
+		if (food.getFreshness() == FreshnessLevel.NOT_FRESH) {
 			this.setHealth(this.getHealth() - food.getNutritionalValue());
 			if  (this.getHealth() <= 0) {
 				this.dead();
@@ -108,7 +114,7 @@ public abstract class Character {
 
 		// --- CAS PERMANENT : Seuil de 10 (1 marmite) -> Effets permanents ---
 		if (this.potionLevel >= 10) {
-			if (!this.effectsPermanent) {
+			if (!this.permanentMagicEffects) {
 				this.permanentMagicEffects = true;
 			}
 		}
@@ -218,7 +224,7 @@ public abstract class Character {
 	}
 
 	public void setFightWill(long fightWill) {
-		this.fight_will = fightWill;
+		this.fightWill = fightWill;
 	}
 
 	public long getPotionLevel() {

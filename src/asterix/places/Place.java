@@ -1,11 +1,13 @@
-package asterix.characters;
+package asterix.places;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import asterix.characters.Character;
 import asterix.food.Food;
+import asterix.food.MagicPotion;
 
 
 public abstract class Place {
@@ -14,6 +16,7 @@ public abstract class Place {
 	private Character clanChief;
 	private ArrayList<Character> characters;
 	private ArrayList<Food> foods = new ArrayList<Food>();
+	private ArrayList<MagicPotion> magicPotions;
 	
 	Place(String name, double size, Character clanChief) {
 		this.name = name;	
@@ -40,6 +43,10 @@ public abstract class Place {
 
 	public ArrayList<Food> getFoods() {
 		return foods;
+	}
+	
+	public ArrayList<MagicPotion> getPotions() {
+		return magicPotions;
 	}
 	
 	
@@ -117,6 +124,40 @@ public abstract class Place {
 		for (Character c : characters) {
 			c.setHunger(100);
 		}
+	}
+	
+	public boolean addFood(Food food) {
+		foods.add(food);
+		return true;
+	}
+	
+	public boolean removeFood(Food food) {
+		if (foods.contains(food)) {
+			foods.remove(food);
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean addMagicPotion(MagicPotion magicPotion) {
+		magicPotions.add(magicPotion);
+		return true;
+	}
+	
+	public boolean removeMagicPotion(MagicPotion magicPotion) {
+		if (magicPotions.contains(magicPotion)) {
+			magicPotions.remove(magicPotion);
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean removeMagicPotions(Food food) {
+		if (foods.contains(food)) {
+			foods.remove(food);
+			return true;
+		}
+		return false;
 	}
 	
 	public boolean canCookPotion() {

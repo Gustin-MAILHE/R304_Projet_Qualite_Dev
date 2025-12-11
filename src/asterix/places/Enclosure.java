@@ -1,4 +1,6 @@
-package asterix.characters;
+package asterix.places;
+
+import asterix.characters.Character;
 
 public class Enclosure extends Place {
 
