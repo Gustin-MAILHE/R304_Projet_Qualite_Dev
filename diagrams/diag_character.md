@@ -35,19 +35,24 @@ classDiagram
         -long height
         -long age
         -long strength
+        -long baseStrength
         -long stamina
         -long health
         -long hunger
-        -long fight_will
-        -long potion_level
-        -ArrayList<Food> tried_food
-        -ArrayList<Food> liked_food
+        -long fightWill
+        -long potionLevel
+        -boolean isInvincible
+        -boolean isStatue
+        -boolean permanentMagicEffects
+        -ArrayList<Food> triedFood
+        -ArrayList<Food> likedFood
 
         +Character(String name, String sexe, long height, long age, long strength)
-        +void fight_against(Character enemy)
+        +void fightAgainst(Character enemy)
         +long heal(long improve)
         +long eat(Food food)
-        +long drink_magic_potion(Potion potion)
+        +long drinkPotion(MagicPotion potion, int dosesToDrink)
+        -applyPotionEffects(List<PotionEffect> effects)
         +void dead()
     }
 

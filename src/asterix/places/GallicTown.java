@@ -1,4 +1,7 @@
-package asterix.characters;
+package asterix.places;
+
+import asterix.characters.Character;
+import asterix.characters.Gallic;
 
 public class GallicTown extends Place {
 

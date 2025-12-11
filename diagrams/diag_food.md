@@ -24,8 +24,6 @@ classDiagram
         SUPER_STRENGTH
         INVINCIBILITY
         NUTRITIOUS
-        PERMANENT_EFFECT
-        GRANITE_STATUE
         DUPLICATION
         METAMORPHOSIS_WEREWOLF
     }
@@ -39,7 +37,6 @@ classDiagram
         -freshness: FreshnessLevel
         +Food(name: String, type: FoodType, freshness: FreshnessLevel)
         +decay() void
-        +isEdible() boolean
         -calculateNutritionalValue(type: FoodType, freshness: FreshnessLevel)
         +getName() String
         +getType() FoodType

@@ -38,17 +38,6 @@ public class Food {
     }
 
     /**
-     * Vérifie si l'aliment est comestible.
-     * Les aliments "pas frais" peuvent être mauvais pour la santé mais techniquement comestibles
-     * dans le contexte du jeu. On considère ici que seuls les aliments "pas frais" posent problème.
-     * @return true si l'aliment n'est pas "NOT_FRESH".
-     */
-    public boolean isEdible() {
-        // Manger du poisson pas frais est mauvais pour la santé, mais les personnages le mangent
-        return true;
-    }
-
-    /**
      * Calcule la valeur nutritionnelle en fonction du type et de la fraîcheur.
      */
     private int calculateNutritionalValue(FoodType type, FreshnessLevel freshness) {

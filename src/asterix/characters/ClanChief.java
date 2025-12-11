@@ -1,10 +1,13 @@
 package asterix.characters;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
+import asterix.characters.Character;
 import asterix.food.MagicPotion;
+import asterix.places.Battlefield;
+import asterix.places.Enclosure;
+import asterix.places.Place;
 
 public class ClanChief {
 	private String name;
@@ -28,7 +31,7 @@ public class ClanChief {
     // 1. Examiner son lieu
     public void checkPlace() {
         System.out.println("\n" + name + " examine son territoire...\n");
-        placeOrigin.DisplayInfos();
+        placeOrigin.displayInfos();
     }
     
     // 2. Créer un nouveau personnage dans son lieu
@@ -37,7 +40,7 @@ public class ClanChief {
         System.out.println(name + " accueille un nouveau membre !");
         System.out.println("══════════════════════════════════════════");
         
-        if (placeOrigin.AddCharacter(p)) {
+        if (placeOrigin.addCharacter(p)) {
             System.out.println(p.getName() + " a rejoint " + placeOrigin.getName());
         } else {
             System.out.println("✗ Impossible d'ajouter " + p.getName());
@@ -49,7 +52,7 @@ public class ClanChief {
         System.out.println("\n══════════════════════════════════════════");
         System.out.println(" ordonne les soins !");
         System.out.println("══════════════════════════════════════════");
-        placeOrigin.HealCharacters();
+        placeOrigin.healCharacters();
     }
     
     // 4. Nourrir les personnages de son lieu
@@ -57,7 +60,7 @@ public class ClanChief {
         System.out.println("\n══════════════════════════════════════════");
         System.out.println(name + " organise un festin !");
         System.out.println("══════════════════════════════════════════");
-        placeOrigin.FeedCharacters();
+        placeOrigin.feedCharacters();
     }
     
     // 5. Demander à un druide de faire de la potion magique
@@ -75,11 +78,11 @@ public class ClanChief {
             }
         }
         
-        //check si les ingrédients sont 
         
         if (druid != null) {
         	if (placeOrigin.canCookPotion()) {
-        		druid.cookMagicPotion(type);
+        		MagicPotion potion = druid.cookMagicPotion(type);
+        		placeOrigin.addMagicPotion(potion);
         		System.out.println("✓ " + druid.getName() + " a préparé une marmite de potion magique !");
         	} else {
         		System.out.println("✗ Des aliments nécéssaire ne sont pas disponible !");
@@ -90,55 +93,59 @@ public class ClanChief {
     }
     
     // 6. Faire boire de la potion magique à des personnages
-    public void faireBoirePotion(Personnage p) {
+    public void makeSomeoneDrink(Character p) {
         System.out.println("\n══════════════════════════════════════════");
-        System.out.println(name + " donne de la potion magique à " + p.getname());
+        System.out.println(name + " donne de la potion magique à " + p.getName());
         System.out.println("══════════════════════════════════════════");
         
-        if (placeOrigin.getPersonnagesPresents().contains(p)) {
-            p.boirePotionMagique();
-            System.out.println("✓ " + p.getname() + " a bu la potion magique ! 🧪");
+        if (placeOrigin.getCharacters().contains(p)) {
+        	if (placeOrigin.getPotions().isEmpty()) {
+        		System.out.println("Il n'y a pas de potion magique !");
+        	} else {
+        		p.drinkPotion(placeOrigin.getPotions().getFirst(), 1);
+                System.out.println("✓ " + p.getName() + " a bu la potion magique ! 🧪");
+        	}
         } else {
-            System.out.println("✗ " + p.getname() + " n'est pas dans " + placeOrigin.getname());
+            System.out.println("✗ " + p.getName() + " n'est pas dans " + placeOrigin.getName());
         }
     }
     
     // 7. Transférer un personnage vers un champ de bataille ou un enclos
-    public void transfererPersonnage(Personnage p, Lieu destination) {
+    public void moveCharacter(Character p, Place destination) {
         System.out.println("\n══════════════════════════════════════════");
-        System.out.println(name + " transfère " + p.getname() + "...");
+        System.out.println(name + " transfère " + p.getName() + "...");
         System.out.println("══════════════════════════════════════════");
         
         // Vérification que la destination est un champ de bataille ou enclos
-        if (!(destination instanceof ChampDeBataille) && !(destination instanceof Enclos)) {
+        if (!(destination instanceof Battlefield) && !(destination instanceof Enclosure)) {
             System.out.println("✗ Transfert impossible ! Seuls les champs de bataille et enclos sont autorisés.");
             return;
         }
         
         // Vérification que le personnage est dans le lieu du chef
-        if (!placeOrigin.getPersonnagesPresents().contains(p)) {
-            System.out.println("✗ " + p.getname() + " n'est pas dans votre lieu !");
+        if (!placeOrigin.getCharacters().contains(p)) {
+            System.out.println("✗ " + p.getName() + " n'est pas dans votre lieu !");
             return;
         }
         
         // Retrait du personnage du lieu actuel
-        if (placeOrigin.enleverPersonnage(p)) {
+        if (placeOrigin.removeCharacter(p)) {
             // Ajout dans la destination
-            if (destination.ajouterPersonnage(p)) {
-                System.out.println("✓ " + p.getname() + " a été transféré vers " + destination.getname());
+            if (destination.addCharacter(p)) {
+                System.out.println("✓ " + p.getName() + " a été transféré vers " + destination.getName());
             } else {
                 // Si l'ajout échoue, on remet le personnage dans le lieu d'origine
-                placeOrigin.ajouterPersonnage(p);
-                System.out.println("✗ Transfert échoué. " + p.getname() + " reste dans " + placeOrigin.getname());
+                placeOrigin.addCharacter(p);
+                System.out.println("✗ Transfert échoué. " + p.getName() + " reste dans " + placeOrigin.getName());
             }
         }
     }
     
     // Menu interactif pour diriger le chef de clan
-    public void afficherMenu(Scanner scanner) {
-        boolean continuer = true;
+    public void displayMenu(Scanner scanner) {
+        boolean cont = true;
         
-        while (continuer) {
+        while (cont) {
             System.out.println("\n╔════════════════════════════════════════════════════════════╗");
             System.out.println("║        CHEF DE CLAN : " + name + "                    ");
             System.out.println("║        Lieu : " + placeOrigin.getName() + "                    ");
@@ -176,20 +183,20 @@ public class ClanChief {
                     break;
                     
                 case 5:
-                    requestMagicPotion();
+                    menuMagicPotionCreation(scanner);
                     break;
                     
                 case 6:
-                    menuFaireBoirePotion(scanner);
+                    menuMakeSomeoneDrink(scanner);
                     break;
                     
                 case 7:
-                    menuTransfererPersonnage(scanner);
+                    menuMoveCharacter(scanner);
                     break;
                     
                 case 0:
                     System.out.println("\n" + name + " se retire...");
-                    continuer = false;
+                    cont = false;
                     break;
                     
                 default:
@@ -198,8 +205,8 @@ public class ClanChief {
         }
     }
     
-    // Menu auxiliaire pour créer un personnage
-    private void menuMagicPotion(Scanner scanner) {
+    // Menu auxiliaire pour créer une potion
+    private void menuMagicPotionCreation(Scanner scanner) {
         System.out.println("\n╔═══════════════════════════ CRÉATION D'UN NOUVEAU PERSONNAGE ════════════════════════════════");
         System.out.println("╚═══ la demande sera complétée si les aliments sont disponible et qu'un druide est présent ═══");
         
@@ -271,51 +278,51 @@ public class ClanChief {
     }
     
     // Menu auxiliaire pour faire boire la potion
-    private void menuFaireBoirePotion(Scanner scanner) {
-        List<Personnage> personnages = placeOrigin.getPersonnagesPresents();
+    private void menuMakeSomeoneDrink(Scanner scanner) {
+        List<Character> characters = placeOrigin.getCharacters();
         
-        if (personnages.isEmpty()) {
+        if (characters.isEmpty()) {
             System.out.println("✗ Aucun personnage présent !");
             return;
         }
         
         System.out.println("\n═══ PERSONNAGES PRÉSENTS ═══");
-        for (int i = 0; i < personnages.size(); i++) {
-            System.out.println((i + 1) + ". " + personnages.get(i).getname() + 
-                             " (" + personnages.get(i).getClass().getSimpleName() + ")");
+        for (int i = 0; i < characters.size(); i++) {
+            System.out.println((i + 1) + ". " + characters.get(i).getName() + 
+                             " (" + characters.get(i).getClass().getSimpleName() + ")");
         }
         
         System.out.print("Choisir un personnage : ");
         int choix = scanner.nextInt() - 1;
         scanner.nextLine();
         
-        if (choix >= 0 && choix < personnages.size()) {
-            faireBoirePotion(personnages.get(choix));
+        if (choix >= 0 && choix < characters.size()) {
+            makeSomeoneDrink(characters.get(choix));
         } else {
             System.out.println("✗ Choix invalide !");
         }
     }
     
     // Menu auxiliaire pour transférer un personnage
-    private void menuTransfererPersonnage(Scanner scanner) {
-        List<Personnage> personnages = placeOrigin.getPersonnagesPresents();
+    private void menuMoveCharacter(Scanner scanner) {
+    	List<Character> characters = placeOrigin.getCharacters();
         
-        if (personnages.isEmpty()) {
+        if (characters.isEmpty()) {
             System.out.println("✗ Aucun personnage à transférer !");
             return;
         }
         
         System.out.println("\n═══ PERSONNAGES PRÉSENTS ═══");
-        for (int i = 0; i < personnages.size(); i++) {
-            System.out.println((i + 1) + ". " + personnages.get(i).getname() + 
-                             " (" + personnages.get(i).getClass().getSimpleName() + ")");
+        for (int i = 0; i < characters.size(); i++) {
+            System.out.println((i + 1) + ". " + characters.get(i).getName() + 
+                             " (" + characters.get(i).getClass().getSimpleName() + ")");
         }
         
         System.out.print("Choisir un personnage : ");
         int choixPerso = scanner.nextInt() - 1;
         scanner.nextLine();
         
-        if (choixPerso < 0 || choixPerso >= personnages.size()) {
+        if (choixPerso < 0 || choixPerso >= characters.size()) {
             System.out.println("✗ Choix invalide !");
             return;
         }

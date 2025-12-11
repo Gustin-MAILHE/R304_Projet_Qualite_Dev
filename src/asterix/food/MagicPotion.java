@@ -50,9 +50,9 @@ public class MagicPotion {
      * Fait boire une dose de potion magique.
      * @return La liste des effets de la dose consommée.
      */
-    public List<PotionEffect> drinkDose(int doseAmount) {
-        if (dosesRemaining >= doseAmount) {
-            dosesRemaining = dosesRemaining - doseAmount;
+    public List<PotionEffect> drinkDose() {
+        if (!this.isEmpty()) {
+            dosesRemaining--;
             // On retourne les effets de base + spéciaux, en laissant la gestion du temps au personnage.
             return new ArrayList<>(effects);
         }

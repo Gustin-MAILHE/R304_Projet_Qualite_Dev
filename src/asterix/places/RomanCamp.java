@@ -1,4 +1,8 @@
-package asterix.characters;
+package asterix.places;
+
+import asterix.characters.Character;
+import asterix.characters.General;
+import asterix.characters.Legionnaire;
 
 public class RomanCamp extends Place {
 

@@ -1,6 +1,6 @@
 package asterix.werewolf;
 
-import asterix.Character;
+import asterix.characters.Character;
 
 import java.util.ArrayList;
 
