@@ -8,6 +8,7 @@ import asterix.food.FreshnessLevel;
 import asterix.food.MagicPotion;
 import asterix.food.PotionEffect;
 
+
 public abstract class Character {
 	private String name;
 	private String sexe;
