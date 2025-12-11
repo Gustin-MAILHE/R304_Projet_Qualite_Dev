@@ -1,6 +1,7 @@
 package asterix.characters;
 
 import java.util.ArrayList;
+import asterix.food.*;
 
 public abstract class Character {
 	private String name;
@@ -8,14 +9,18 @@ public abstract class Character {
 	private long height;
 	private long age;
 	private long strength;
+	private long baseStrength;
 	private long stamina;
 	private long health;
 	private long hunger;
-	private long fight_will;
-	private long potion_level;
-	private Food last_food;
-	private ArrayList<Food> tried_food;
-	private ArrayList<Food> liked_food;
+	private long fightWill;
+	private long potionLevel = 0;
+	private boolean isInvincible = false;
+	private boolean isStatue = false;
+	private boolean permanentMagicEffects = false;
+	private Food lastFood;
+	private ArrayList<Food> triedFood;
+	private ArrayList<Food> likedFood;
 	
 	public Character(String name, String sexe, long height, long age, long strength) {
 		this.name = name;
@@ -23,26 +28,122 @@ public abstract class Character {
 		this.height = height;
 		this.age = age;
 		this.strength = strength;
+		this.baseStrength = strength;
 	}
 	
-	public void fight_against(Character enemy) {
-		long damaged_dealed = Math.max(0, (this.strength * this.stamina/100) - (enemy.stamina/10));
-		enemy.setHealth(damaged_dealed);
+	public void fightAgainst(Character enemy) {
+		if (!enemy.isInvincible) {
+			long damagedDealed = Math.max(0, (this.strength * this.stamina/100) - (enemy.stamina/10));
+			enemy.setHealth(enemy.getHealth() -  damagedDealed);
+			if (enemy.getHealth() <= 0) {
+				enemy.dead();
+			}
+		}
 	}
 	
 	public void heal(long improve) {
-		long new_health = Math.max(100, this.getHealth() + improve);
-		this.setHealth(new_health);
+		long newHealth = Math.max(100, this.getHealth() + improve);
+		this.setHealth(newHealth);
 	}
 	
 	public void eat(Food food) {
-		long new_hunger = Math.max(100, this.getHunger() + 10);
-		this.setHunger(new_hunger);
+		long newHunger = Math.max(100, this.getHunger() + food.getNutritionalValue());
+		this.setHunger(newHunger);
+		if (food.getFreshness() == NOT_FRESH) {
+			this.setHealth(this.getHealth() - food.getNutritionalValue());
+			if  (this.getHealth() <= 0) {
+				this.dead();
+			}
+		}
 	}
-	
-	public void drink_magic_potion(Magic_potion_pot potion) {
-		this.setStrength(1000);
-		this.setHealth(1000);
+
+	/**
+	 * Fait boire une quantité spécifique de doses de potion au personnage.
+	 * @param potion La marmite de potion.
+	 * @param dosesToDrink Le nombre de doses que le personnage VEUT boire (entre 1 et 10).
+	 */
+	public void drinkPotion(MagicPotion potion, int dosesToDrink) {
+		// 1. Vérifications d'usage (Statue, Mort, Chaudron vide ou aucune dose demandée)
+		if (this.isStatue || this.health <= 0 || potion.isEmpty() || dosesToDrink < 1) {
+			return;
+		}
+
+		// On limite au nombre de doses restantes dans le chaudron
+		if (dosesToDrink > potion.getDosesRemaining()) {
+			dosesToDrink = potion.getDosesRemaining();
+		}
+
+		// 3. Consommation effective des doses
+		int dosesConsumed = 0;
+		List<PotionEffect> lastEffects = null;
+
+		for (int i = 0; i < dosesToDrink; i++) {
+			// On récupère les effets (qui sont identiques pour toutes les doses de la même marmite)
+			lastEffects = potion.drinkDose();
+			dosesConsumed++;
+		}
+
+		// 4. Mise à jour de l'état
+		if (dosesConsumed > 0 && lastEffects != null) {
+			this.potionLevel += dosesConsumed;
+
+			// Appel de la méthode de gestion des effets avec les effets de la potion bue
+			applyPotionEffects(lastEffects);
+		}
+	}
+
+	/**
+	 * Applique les effets et gère les seuils (Permanence / Statue) en fonction du potionLevel.
+	 * Cette méthode est appelée après avoir bu.
+	 * * @param effects La liste des effets contenus dans la potion.
+	 */
+	private void applyPotionEffects(List<PotionEffect> effects) {
+		// --- CAS CRITIQUE : Seuil de 20 (2 marmites) -> Statue de Granit ---
+		if (this.potionLevel >= 20) {
+			if (!this.isStatue) {
+				this.isStatue = true;
+				this.setStrength(0);
+				this.isInvincible = true;
+			}
+		}
+
+		// --- CAS PERMANENT : Seuil de 10 (1 marmite) -> Effets permanents ---
+		if (this.potionLevel >= 10) {
+			if (!this.effectsPermanent) {
+				this.permanentMagicEffects = true;
+			}
+		}
+
+		// --- APPLICATION DES EFFETS (Force, Invincibilité, Spéciaux) ---
+		// Ces effets s'appliquent que ce soit temporaire ou permanent.
+
+		for (PotionEffect effect : effects) {
+			switch (effect) {
+				case SUPER_STRENGTH:
+					// On applique le boost seulement si on n'est pas déjà boosté
+					if (this.strength <= this.baseStrength) {
+						this.strength += 100; // Valeur arbitraire de boost
+					}
+					break;
+
+				case INVINCIBILITY:
+					this.isInvincible = true;
+					break;
+
+				case DUPLICATION:
+					System.out.println("Effet spécial : Dédoublement !");
+					// Logique de duplication à implémenter
+					break;
+
+				case METAMORPHOSIS_WEREWOLF:
+					System.out.println("Effet spécial : Ahouuuu (Loup-garou) !");
+					// Logique de métamorphose à implémenter
+					break;
+
+				default:
+					break;
+			}
+		}
 	}
 	
 	public void dead() {
@@ -113,44 +214,44 @@ public abstract class Character {
 		this.hunger = hunger;
 	}
 
-	public long getFight_will() {
-		return fight_will;
+	public long getFightWill() {
+		return fightWill;
 	}
 
-	public void setFight_will(long fight_will) {
-		this.fight_will = fight_will;
+	public void setFightWill(long fightWill) {
+		this.fight_will = fightWill;
 	}
 
-	public long getPotion_level() {
-		return potion_level;
+	public long getPotionLevel() {
+		return potionLevel;
 	}
 
-	public void setPotion_level(long potion_level) {
-		this.potion_level = potion_level;
+	public void setPotionLevel(long potionLevel) {
+		this.potionLevel = potionLevel;
 	}
 	
-	public Food getLast_food() {
-		return last_food;
+	public Food getLastFood() {
+		return lastFood;
 	}
 	
-	public void setLast_food(Food food) {
-		this.last_food = food;
+	public void setLastFood(Food food) {
+		this.lastFood = food;
 	}
 
-	public ArrayList<Food> getTried_food() {
-		return tried_food;
+	public ArrayList<Food> getTriedFood() {
+		return triedFood;
 	}
 
-	public void setTried_food(ArrayList<Food> tried_food) {
-		this.tried_food = tried_food;
+	public void setTriedFood(ArrayList<Food> triedFood) {
+		this.triedFood = triedFood;
 	}
 
-	public ArrayList<Food> getLiked_food() {
-		return liked_food;
+	public ArrayList<Food> getLikedFood() {
+		return likedFood;
 	}
 
-	public void setLiked_food(ArrayList<Food> liked_food) {
-		this.liked_food = liked_food;
+	public void setLikedFood(ArrayList<Food> likedFood) {
+		this.likedFood = likedFood;
 	}
 	
 }
