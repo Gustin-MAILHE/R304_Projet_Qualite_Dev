@@ -16,7 +16,50 @@ public abstract class Place {
 	}
 	
 	public String DisplayInfos() {
-		//TO-DO
+		System.out.println("\n╔════════════════════════════════════════════════════════════╗");
+	    System.out.println("║          " + this.getClass().getSimpleName().toUpperCase() + "          ");
+	    System.out.println("╠════════════════════════════════════════════════════════════╣");
+	    System.out.println("║ Nom: " + name);
+	    System.out.println("║ Superficie: " + size + " m²");
+	    
+	    if (clanChief != null) {
+	        System.out.println("║ Chef de clan: " + clanChief.getName());
+	    } else {
+	        System.out.println("║ Chef de clan: Aucun");
+	    }
+	    
+	    System.out.println("║ Nombre de personnages: " + characters.size());
+	    System.out.println("╠════════════════════════════════════════════════════════════╣");
+	    
+	    // Affichage des personnages présents
+	    if (characters.isEmpty()) {
+	        System.out.println("║ Aucun personnage présent");
+	    } else {
+	        System.out.println("║ PERSONNAGES PRÉSENTS:");
+	        System.out.println("╠════════════════════════════════════════════════════════════╣");
+	        for (Character p : characters) {
+	            System.out.println("║ ► " + p.getName() + " (" + p.getClass().getSimpleName() + ")");
+	            System.out.println("║   ├─ Santé: " + p.getHealth() + "/100");
+	            System.out.println("║   ├─ Faim: " + p.getHunger() + "/100");
+	            System.out.println("║   └─ Force: " + p.getStrength());
+	        }
+	    }
+	    
+	    System.out.println("╠════════════════════════════════════════════════════════════╣");
+	    
+	    // Affichage des aliments présents
+	    if (foods.isEmpty()) {
+	        System.out.println("║ Aucun aliment disponible");
+	    } else {
+	        System.out.println("║ ALIMENTS DISPONIBLES:");
+	        System.out.println("╠════════════════════════════════════════════════════════════╣");
+	        //for (Food a : foods) {
+	        //    System.out.println("║ ► " + a.getName() + " (Valeur nutritive: " + a.getValeurNutritive() + ")");
+	        //}
+	    }
+	    
+	    System.out.println("╚════════════════════════════════════════════════════════════╝\n");
+
 		return "feur";
 	}
 	
