@@ -1,13 +1,19 @@
 package asterix.characters;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import asterix.food.Food;
+
 
 public abstract class Place {
 	private String name;
 	private double size;
 	private Character clanChief;
 	private ArrayList<Character> characters;
-	private ArrayList<Food> foods;
+	private ArrayList<Food> foods = new ArrayList<Food>();
 	
 	Place(String name, double size, Character clanChief) {
 		this.name = name;	
@@ -15,7 +21,29 @@ public abstract class Place {
 		this.clanChief = clanChief;
 	}
 	
-	public String DisplayInfos() {
+	
+	public String getName() {
+		return name;
+	}
+
+	public double getSize() {
+		return size;
+	}
+
+	public Character getClanChief() {
+		return clanChief;
+	}
+
+	public ArrayList<Character> getCharacters() {
+		return characters;
+	}
+
+	public ArrayList<Food> getFoods() {
+		return foods;
+	}
+	
+	
+	public String displayInfos() {
 		System.out.println("\n╔════════════════════════════════════════════════════════════╗");
 	    System.out.println("║          " + this.getClass().getSimpleName().toUpperCase() + "          ");
 	    System.out.println("╠════════════════════════════════════════════════════════════╣");
@@ -63,17 +91,44 @@ public abstract class Place {
 		return "feur";
 	}
 	
-	public void AddCharacter(Character c) {
+	public boolean addCharacter(Character c) {
 		if (CanHaveCharacter(c)) {
 			characters.add(c);
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean removeCharacter(Character c) {
+		if (characters.contains(c)) {
+			characters.remove(c);
+			return true;
+		}
+		return false;
+	}
+	
+	public void healCharacters() {
+		for (Character c : characters) {
+			c.setHealth(100);
 		}
 	}
 	
-	public void RemoveCharacter(Character c) {
-		if (characters.contains(c)) {
-			characters.remove(c);
+	public void feedCharacters() {
+		for (Character c : characters) {
+			c.setHunger(100);
 		}
 	}
+	
+	public boolean canCookPotion() {
+	    Set<String> foodNames = foods.stream()
+	            .map(Food::getName)
+	            .collect(Collectors.toSet());
+
+	    List<String> required = List.of("egg", "apple", "carrot", "steak");
+
+	    return foodNames.containsAll(required);
+	}
+
 	
 	public abstract boolean CanHaveCharacter(Character c);
 }
