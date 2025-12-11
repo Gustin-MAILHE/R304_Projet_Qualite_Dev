@@ -38,6 +38,8 @@ public abstract class Place {
 		return clanChief;
 	}
 
+	public void setClanChief(ClanChief clanChief) {this.clanChief = clanChief;}
+
 	public ArrayList<Character> getCharacters() {
 		return characters;
 	}
