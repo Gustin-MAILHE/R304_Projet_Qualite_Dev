@@ -1,4 +1,4 @@
-package asterix;
+package asterix.characters;
 
 import java.util.ArrayList;
 
@@ -27,7 +27,7 @@ public abstract class Character {
 	
 	public void fight_against(Character enemy) {
 		long damaged_dealed = Math.max(0, (this.strength * this.stamina/100) - (enemy.stamina/10));
-		enemy.setHealth(damaged_dealed);
+		enemy.setHealth(enemy.getHealth() - damaged_dealed);
 	}
 	
 	public void heal(long improve) {
@@ -40,9 +40,13 @@ public abstract class Character {
 		this.setHunger(new_hunger);
 	}
 	
-	public void drink_magic_potion(Magic_potion_pot potion) {
+	public void drink_magic_potion(MagicPotionPot potion) {
 		this.setStrength(1000);
 		this.setHealth(1000);
+	}
+	
+	public void dead() {
+		this.setHealth(0);
 	}
 	
 	public String getName() {
