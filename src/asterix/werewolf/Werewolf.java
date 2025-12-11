@@ -12,6 +12,10 @@ public class Werewolf extends Character {
     private long thinkingStrengh;
     private Pack pack;
 
+    public Werewolf(String name, String sexe, long height, long age, long strength)
+    {
+        super(name, sexe, height, age, strength);
+    }
     public Werewolf(String name, String sexe, long height, long age, long strength, Pack pack)
     {
         super(name, sexe, height, age, strength);
@@ -34,7 +38,7 @@ public class Werewolf extends Character {
     {
         new Howl(type, isAnswer, targets, this);
         if (!isAnswer) {
-            System.out.println( "Werewolf " + this.getName() + " has started a " + type + "howl" );
+            System.out.println( "Werewolf " + this.getName() + " a lancé un hurlement de " + type );
         }
     }
 
@@ -45,11 +49,15 @@ public class Werewolf extends Character {
             case "Domination" :
                 if (howl.isATarget(this))
                 {
-
+                    ArrayList<Werewolf> target = new ArrayList<Werewolf>();
+                    target.add(howl.source);
+                    new Howl("Submission", true, target, this);
                 }
                 break;
             case "Pack":
                 new Howl("Pack", true, this);
+            default:
+                break;
         }
     }
 

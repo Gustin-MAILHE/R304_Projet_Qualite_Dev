@@ -23,10 +23,10 @@ public class ClanChief {
     }
     
     // Getters
-    public String getname() { return name; }
+    public String getName() { return name; }
     public String getSexe() { return sexe; }
     public int getAge() { return age; }
-    public Place getplaceOrigin() { return placeOrigin; }
+    public Place getPlaceOrigin() { return placeOrigin; }
     
     // 1. Examiner son lieu
     public void checkPlace() {

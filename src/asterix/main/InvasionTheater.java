@@ -138,7 +138,7 @@ public class InvasionTheater {
     private void handleChiefsTurn() {
         //  Passer la main à un chef de clan
         for (ClanChief chief : chiefs) {
-            System.out.println("C'est au tour du chef " + chief.getName() + " (" + chief.getplaceOrigin().getName() + ")");
+            System.out.println("C'est au tour du chef " + chief.getName() + " (" + chief.getPlaceOrigin().getName() + ")");
             // Appeler le menu du chef
             // chief.takeTurn();
         }

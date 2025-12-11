@@ -13,6 +13,8 @@ public class Howl {
         this.type = type;
         this.isAnswer = isAnswer;
         this.source = source;
+
+        this.pack();
     }
     public Howl(String type, boolean isAnswer, ArrayList<Werewolf> targets, Werewolf source) {
         this.type = type;
@@ -20,7 +22,12 @@ public class Howl {
         this.targets = targets;
         this.source = source;
 
-        switch (type)
+        switchType();
+    }
+
+    private void switchType()
+    {
+        switch (this.type)
         {
             case "Pack":
                 this.pack();
@@ -32,7 +39,7 @@ public class Howl {
                 }
                 break;
             case "Submission":
-                this.submission(source);
+                this.submission(targets.getFirst());
                 break;
             case "Agressiveness":
                 for (Werewolf target : targets)
@@ -47,22 +54,22 @@ public class Howl {
 
     void pack()
     {
-        System.out.println( "Werewolf " + source.getName() + " howl his pack : \n" + source.getPack() );
+        System.out.println( "Le lycanthrope " + source.getName() + " cri sa meute : \n" + source.getPack() );
     }
 
     void domination(Werewolf target)
     {
-
+        System.out.println( "Le lycanthrope " + source.getName() + " montre sa domination sur " + target.getName() );
     }
 
-    void submission(Werewolf source)
+    void submission(Werewolf target)
     {
-
+        System.out.println( "Le lycanthrope " + source.getName() + " admet sa soumission envers " + target.getName() );
     }
 
     void agressiveness(Werewolf target)
     {
-
+        System.out.println( "Le lycanthrope " + source.getName() + " se montre agressif envers " + target.getName() );
     }
 
     public boolean isATarget(Werewolf werewolf)
